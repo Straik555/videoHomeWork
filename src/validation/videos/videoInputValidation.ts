@@ -108,17 +108,11 @@ const publicationDateValidation = ({
   errorsMessages,
 }: PublicationDateValidationType) => {
   const isoRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
-  if (!isoRegex.test(publicationDate)) {
-    errorsMessages.push({
-      message: "Incorrect format publication Date",
-      field: "publicationDate",
-    });
-  }
   const date = new Date(publicationDate);
   const isDateValid =
     !isNaN(date.getTime()) && date.toISOString() === publicationDate;
 
-  if (!isDateValid) {
+  if (!isDateValid || !isoRegex.test(publicationDate)) {
     errorsMessages.push({
       message: "Incorrect Date",
       field: "publicationDate",
