@@ -2,7 +2,7 @@ import { RequestWithBody } from "../../types/generalRequest.type";
 import { CreateVideoModelType } from "../../types/model/video/createVideo.model.type";
 import { Response, Router } from "express";
 import { VideoType } from "../../types/video.type";
-import { ErrorType } from "../../types/error.type";
+import { ErrorResponse } from "../../types/error.type";
 import { HTTP_STATUS } from "../../config/httpStatus";
 import { mockDB } from "../../db/db";
 import { postInputValidation } from "../../validation/videos/postInputValidation";
@@ -12,14 +12,17 @@ postVideoRouter.post(
   "/",
   (
     req: RequestWithBody<CreateVideoModelType>,
-    res: Response<VideoType | ErrorType>,
+    res: Response<VideoType | ErrorResponse>,
   ) => {
     const { title, author, availableResolutions } = req.body;
-    let errorMessage: ErrorType = [];
+    let errorMessage: ErrorResponse = { errorMessage: [] };
 
-    postInputValidation({ title, author, availableResolutions }, errorMessage);
+    postInputValidation(
+      { title, author, availableResolutions },
+      errorMessage.errorMessage,
+    );
 
-    if (errorMessage.length > 0) {
+    if (errorMessage.errorMessage.length > 0) {
       res.status(HTTP_STATUS.BAD_REQUEST_400).json(errorMessage);
       return;
     }
@@ -31,7 +34,7 @@ postVideoRouter.post(
       id: +new Date(),
       title,
       author,
-      canBeDownloaded: true,
+      canBeDownloaded: false,
       minAgeRestriction: null,
       createdAt: new Date().toISOString(),
       publicationDate: publicationDate.toISOString(),

@@ -1,7 +1,7 @@
 import { type Response, Router } from "express";
 import { RequestWithParamsAndBody } from "../../types/generalRequest.type";
 import { UriParamsById } from "../../types/model/UriParamsById.model";
-import { ErrorType } from "../../types/error.type";
+import { ErrorResponse } from "../../types/error.type";
 import { VideoType } from "../../types/video.type";
 import { UpdateVideoModelType } from "../../types/model/video/updateVideo.model.type";
 import { mockDB } from "../../db/db";
@@ -15,24 +15,26 @@ putVideoRouter.put(
   "/:id",
   (
     req: RequestWithParamsAndBody<UriParamsById, UpdateVideoModelType>,
-    res: Response<ErrorType | VideoType>,
+    res: Response<ErrorResponse | VideoType>,
   ) => {
     const idVideo = Number(req.params.id);
     const bodyVideo = req.body;
-    const errorMessage: ErrorType = [];
+    let errorMessage: ErrorResponse = { errorMessage: [] };
 
     const foundVideo = mockDB.videos.find((video) => video.id === idVideo);
 
     if (!foundVideo) {
-      res
-        .status(HTTP_STATUS.NOT_FOUND_404)
-        .json([{ message: "The video does not exist", field: "Incorrect id" }]);
+      res.status(HTTP_STATUS.NOT_FOUND_404).json({
+        errorMessage: [
+          { message: "The video does not exist", field: "Incorrect id" },
+        ],
+      });
       return;
     }
 
-    putInputValidation(bodyVideo, errorMessage);
+    putInputValidation(bodyVideo, errorMessage.errorMessage);
 
-    if (errorMessage.length > 0) {
+    if (errorMessage.errorMessage.length > 0) {
       res.status(HTTP_STATUS.BAD_REQUEST_400).json(errorMessage);
       return;
     }

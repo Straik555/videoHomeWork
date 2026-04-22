@@ -4,7 +4,7 @@ import { HTTP_STATUS } from "../../config/httpStatus";
 import { mockDB } from "../../db/db";
 import { RequestWithParams } from "../../types/generalRequest.type";
 import { UriParamsById } from "../../types/model/UriParamsById.model";
-import { ErrorType } from "../../types/error.type";
+import { ErrorResponse } from "../../types/error.type";
 
 export const getVideosRouter = Router();
 
@@ -16,16 +16,18 @@ getVideosRouter.get(
   "/:id",
   (
     req: RequestWithParams<UriParamsById>,
-    res: Response<VideoType | ErrorType>,
+    res: Response<VideoType | ErrorResponse>,
   ) => {
     const idVideo = Number(req.params.id);
 
     const foundVideo = mockDB.videos.find((video) => video.id === idVideo);
 
     if (!foundVideo) {
-      res
-        .status(HTTP_STATUS.NOT_FOUND_404)
-        .json([{ message: "The video does not exist", field: "Incorrect id" }]);
+      res.status(HTTP_STATUS.NOT_FOUND_404).json({
+        errorMessage: [
+          { message: "The video does not exist", field: "Incorrect id" },
+        ],
+      });
       return;
     }
 
