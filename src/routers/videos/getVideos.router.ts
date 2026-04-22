@@ -24,7 +24,7 @@ getVideosRouter.get(
 
     if (!foundVideo) {
       res.status(HTTP_STATUS.NOT_FOUND_404).json({
-        errorMessages: [
+        errorsMessages: [
           { message: "The video does not exist", field: "Incorrect id" },
         ],
       });

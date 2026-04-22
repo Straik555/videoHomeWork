@@ -1,3 +1,3 @@
 export type ErrorType = { message: string; field: string }[];
 
-export type ErrorResponse = { errorMessages: ErrorType };
+export type ErrorResponse = { errorsMessages: ErrorType };

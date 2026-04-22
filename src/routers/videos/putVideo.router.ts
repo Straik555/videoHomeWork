@@ -19,22 +19,22 @@ putVideoRouter.put(
   ) => {
     const idVideo = Number(req.params.id);
     const bodyVideo = req.body;
-    let errorMessage: ErrorResponse = { errorMessages: [] };
+    let errorMessage: ErrorResponse = { errorsMessages: [] };
 
     const foundVideo = mockDB.videos.find((video) => video.id === idVideo);
 
     if (!foundVideo) {
       res.status(HTTP_STATUS.NOT_FOUND_404).json({
-        errorMessages: [
+        errorsMessages: [
           { message: "The video does not exist", field: "Incorrect id" },
         ],
       });
       return;
     }
 
-    putInputValidation(bodyVideo, errorMessage.errorMessages);
+    putInputValidation(bodyVideo, errorMessage.errorsMessages);
 
-    if (errorMessage.errorMessages.length > 0) {
+    if (errorMessage.errorsMessages.length > 0) {
       res.status(HTTP_STATUS.BAD_REQUEST_400).json(errorMessage);
       return;
     }
