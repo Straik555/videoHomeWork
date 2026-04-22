@@ -7,11 +7,11 @@ const getEnumKeys = <T extends object>(enumObj: T): string[] =>
 const includesKeyInEnum = (
   arr1: AvailableResolutionsType[],
   arr2: string[],
-  errorMessage: ErrorType,
+  errorsMessages: ErrorType,
 ) => {
   for (const res of arr1) {
     if (!arr2.includes(res)) {
-      errorMessage.push({
+      errorsMessages.push({
         message: `${res} that format is not valid`,
         field: "availableResolutions",
       });

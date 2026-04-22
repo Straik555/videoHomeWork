@@ -9,25 +9,24 @@ import {
   TitleValidationType,
 } from "../../types/validationInput.type";
 
-const titleValidation = ({ title, errorMessage }: TitleValidationType) => {
-  console.log("title", title, !title);
+const titleValidation = ({ title, errorsMessages }: TitleValidationType) => {
   if (!title) {
-    errorMessage.push({ message: "The title is required", field: "title" });
+    errorsMessages.push({ message: "The title is required", field: "title" });
   }
   if (title && title.length > 40) {
-    errorMessage.push({
+    errorsMessages.push({
       message: "The title must be less than 40 characters",
       field: "title",
     });
   }
 };
 
-const authorValidation = ({ author, errorMessage }: AuthorValidationType) => {
+const authorValidation = ({ author, errorsMessages }: AuthorValidationType) => {
   if (!author) {
-    errorMessage.push({ message: "The author is required", field: "author" });
+    errorsMessages.push({ message: "The author is required", field: "author" });
   }
   if (author.length > 20) {
-    errorMessage.push({
+    errorsMessages.push({
       message: "The author must be less than 20 characters",
       field: "author",
     });
@@ -36,10 +35,10 @@ const authorValidation = ({ author, errorMessage }: AuthorValidationType) => {
 
 const availableResolutionsValidation = ({
   availableResolutions,
-  errorMessage,
+  errorsMessages,
 }: AvailableResolutionsValidationType) => {
   if (!Array.isArray(availableResolutions)) {
-    errorMessage.push({
+    errorsMessages.push({
       message: "The availableResolutions must be an array",
       field: "availableResolutions",
     });
@@ -49,25 +48,25 @@ const availableResolutionsValidation = ({
     includesKeyInEnum(
       availableResolutions,
       getEnumKeys(AvailableResolutionsType),
-      errorMessage,
+      errorsMessages,
     );
   }
 };
 
 const canBeDownloadedValidation = ({
   canBeDownloaded,
-  errorMessage,
+  errorsMessages,
 }: CanBeDownloadedValidationType) => {
   const isBoolean = (val: any): val is boolean => typeof val === "boolean";
 
   if (!isBoolean(canBeDownloaded)) {
-    errorMessage.push({
+    errorsMessages.push({
       message: "Incorrect format can Be Downloaded",
       field: "canBeDownloaded",
     });
   }
   if (!canBeDownloaded) {
-    errorMessage.push({
+    errorsMessages.push({
       message: "The canBeDownloaded is required",
       field: "canBeDownloaded",
     });
@@ -76,28 +75,28 @@ const canBeDownloadedValidation = ({
 
 const minAgeRestrictionValidation = ({
   minAgeRestriction,
-  errorMessage,
+  errorsMessages,
 }: MinAgeRestrictionValidationType) => {
   const isNoRestriction = minAgeRestriction === null;
   if (isNoRestriction) {
     return;
   }
   if (!minAgeRestriction) {
-    errorMessage.push({
+    errorsMessages.push({
       message: "The minAgeRestriction is required",
       field: "minAgeRestriction",
     });
   }
 
   if (typeof minAgeRestriction !== "number") {
-    errorMessage.push({
+    errorsMessages.push({
       message: "Incorrect format minAgeRestriction",
       field: "minAgeRestriction",
     });
   }
 
   if (typeof minAgeRestriction === "number" && minAgeRestriction > 18) {
-    errorMessage.push({
+    errorsMessages.push({
       message: "The minAgeRestriction must be less than 18 characters",
       field: "minAgeRestriction",
     });
@@ -106,11 +105,11 @@ const minAgeRestrictionValidation = ({
 
 const publicationDateValidation = ({
   publicationDate,
-  errorMessage,
+  errorsMessages,
 }: PublicationDateValidationType) => {
   const isoRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
   if (!isoRegex.test(publicationDate)) {
-    errorMessage.push({
+    errorsMessages.push({
       message: "Incorrect format publication Date",
       field: "publicationDate",
     });
@@ -120,7 +119,7 @@ const publicationDateValidation = ({
     !isNaN(date.getTime()) && date.toISOString() === publicationDate;
 
   if (!isDateValid) {
-    errorMessage.push({
+    errorsMessages.push({
       message: "Incorrect Date",
       field: "publicationDate",
     });

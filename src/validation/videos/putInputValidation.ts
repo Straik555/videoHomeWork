@@ -18,12 +18,12 @@ export const putInputValidation = (
     publicationDate,
     canBeDownloaded,
   }: UpdateVideoModelType,
-  errorMessage: ErrorType,
+  errorsMessages: ErrorType,
 ) => {
-  titleValidation({ title, errorMessage });
-  authorValidation({ author, errorMessage });
-  availableResolutionsValidation({ availableResolutions, errorMessage });
-  canBeDownloadedValidation({ canBeDownloaded, errorMessage });
-  minAgeRestrictionValidation({ minAgeRestriction, errorMessage });
-  publicationDateValidation({ publicationDate, errorMessage });
+  titleValidation({ title, errorsMessages });
+  authorValidation({ author, errorsMessages });
+  availableResolutionsValidation({ availableResolutions, errorsMessages });
+  canBeDownloadedValidation({ canBeDownloaded, errorsMessages });
+  minAgeRestrictionValidation({ minAgeRestriction, errorsMessages });
+  publicationDateValidation({ publicationDate, errorsMessages });
 };

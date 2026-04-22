@@ -8,9 +8,9 @@ import {
 
 export const postInputValidation = (
   { author, title, availableResolutions }: CreateVideoModelType,
-  errorMessage: ErrorType,
+  errorsMessages: ErrorType,
 ) => {
-  titleValidation({ title, errorMessage });
-  authorValidation({ author, errorMessage });
-  availableResolutionsValidation({ availableResolutions, errorMessage });
+  titleValidation({ title, errorsMessages });
+  authorValidation({ author, errorsMessages });
+  availableResolutionsValidation({ availableResolutions, errorsMessages });
 };
