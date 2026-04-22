@@ -15,14 +15,14 @@ postVideoRouter.post(
     res: Response<VideoType | ErrorResponse>,
   ) => {
     const { title, author, availableResolutions } = req.body;
-    let errorMessage: ErrorResponse = { errorMessage: [] };
+    let errorMessage: ErrorResponse = { errorMessages: [] };
 
     postInputValidation(
       { title, author, availableResolutions },
-      errorMessage.errorMessage,
+      errorMessage.errorMessages,
     );
 
-    if (errorMessage.errorMessage.length > 0) {
+    if (errorMessage.errorMessages.length > 0) {
       res.status(HTTP_STATUS.BAD_REQUEST_400).json(errorMessage);
       return;
     }
