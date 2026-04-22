@@ -10,10 +10,11 @@ import {
 } from "../../types/validationInput.type";
 
 const titleValidation = ({ title, errorMessage }: TitleValidationType) => {
+  console.log("title", title, !title);
   if (!title) {
     errorMessage.push({ message: "The title is required", field: "title" });
   }
-  if (title.length > 40) {
+  if (title && title.length > 40) {
     errorMessage.push({
       message: "The title must be less than 40 characters",
       field: "title",
